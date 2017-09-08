@@ -20,3 +20,39 @@ WHERE teamID='NYA' and yearID=1927"
 sqldf(query)
 ```
 
+## All instances where Yankees have hit 40 HR or more
+
+```{r}
+Query<-"Select playerID,yearID,teamID,HR FROM Batting
+WHERE teamID='NYA' and HR>=40"
+sqldf(Query)
+```
+
+## All instances where a player had more than 40 HR but less than 60 SO
+```{r}
+Query<-"Select playerID,yearID,teamID,HR,SO FROM Batting
+WHERE HR>40 and SO<60"
+sqldf(Query)
+```
+
+## All instances of Phillies in the 1970's hitting more than 30 HR
+
+```{r}
+Query<-"Select playerID, yearID, teamID, HR FROM Batting 
+WHERE teamID='PHI'and yearID>=1970 and yearID<1980 and HR>30"
+sqldf(Query)
+```
+
+
+## ORDER BY
+
+With SQL, you can order the rows of your output, For instance, suppose you want to see every instance of a player hitting more than 50 homeruns. But you would like the players with the most homeruns to be at the top. We could do the following:
+
+```{r}
+query<-"SELECT playerID, teamID, yearID, HR FROM Batting 
+WHERE HR>50 
+ORDER BY HR DESC"
+sqldf(query)
+
+```
+

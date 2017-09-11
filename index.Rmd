@@ -3,7 +3,7 @@ title: "SQL"
 output: html_document
 ---
 
-## Filtering Columns and Rows
+## FILTERING COLUMNS AND ROWS
 
 With SQL, you can filter columns and rows by using SELECT and WHERE. Let's look at an example using the Lahman database.So we should first load that database, along iwth the package sqldf.
 
@@ -20,7 +20,8 @@ WHERE teamID='NYA' and yearID=1927"
 sqldf(query)
 ```
 
-## All instances where Yankees have hit 40 HR or more
+# Equal to or more than
+Suppose I would like to find an equal to or more than in a list. I could ues this example: All instances where Yankees have hit 40 HR or more.
 
 ```{r}
 Query<-"Select playerID,yearID,teamID,HR FROM Batting
@@ -28,14 +29,16 @@ WHERE teamID='NYA' and HR>=40"
 sqldf(Query)
 ```
 
-## All instances where a player had more than 40 HR but less than 60 SO
+# More than and Less than example
+If you would like to look at an example with more than's and less than's I could use this example: All instances where a player had more than 40 HR but less than 60 SO.
 ```{r}
 Query<-"Select playerID,yearID,teamID,HR,SO FROM Batting
 WHERE HR>40 and SO<60"
 sqldf(Query)
 ```
 
-## All instances of Phillies in the 1970's hitting more than 30 HR
+# More than example
+If I want to look at just than more than's, this is an exmaple: All instances of Phillies in the 1970's hitting more than 30 HR
 
 ```{r}
 Query<-"Select playerID, yearID, teamID, HR FROM Batting 
@@ -54,5 +57,52 @@ WHERE HR>50
 ORDER BY HR DESC"
 sqldf(query)
 
+```
+
+
+Here is an example of less than, great than or equal to, and order by alll in one. Example: Find all instances oif a player striking out less than 10 times. Making sure each player has had at least 400 AB's and ordering by strikeouts.
+
+```{r}
+query<-"Select playerID, yearID, teamID, SO, AB FROM Batting
+WHERE SO<10 and AB>=400
+ORDER BY SO"
+sqldf(query)
+```
+
+##AGGREGATION
+
+Aggregating on SQL is helpful to look at sum's or squashing a section together. 
+IF I wanted to look at Ruth's HR I could look at this example.
+```{r}
+query<-"Select playerID, HR FROM Batting
+where playerID='ruthba01'"
+sqldf(query)
+```
+
+However, IF i wanted to aggregate the HR I could use this.
+```{r}
+query<-"Select playerID,sum(HR) FROM Batting
+where playerID='ruthba01'
+GROUP BY playerID"
+sqldf(query)
+```
+
+#SUM example
+To find the career HR toals for all players, but limit the output totals to 600 or more and order it by career total, I could use this
+```{r}
+query<-"SELECT playerID,sum(HR) FROM Batting
+GROUP BY playerID
+HAVING sum(HR)>=600
+ORDER BY sum(HR)"
+sqldf(query)
+```
+
+When using aggregations you can do more than just the sum. You can search for the average, max, or minimum, basically to squash the numbers down. Here is an example of averaging and also ordering is by the highest to lowest.
+```{r}
+query<-"SELECT playerID,avg(HR) FROM Batting
+GROUP BY playerID
+HAVING avg(HR)>30
+ORDER BY sum(HR) DESC"
+sqldf(query)
 ```
 

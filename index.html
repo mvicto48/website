@@ -121,7 +121,7 @@ $(document).ready(function () {
 
 
 <div id="filtering-columns-and-rows" class="section level2">
-<h2>Filtering Columns and Rows</h2>
+<h2>FILTERING COLUMNS AND ROWS</h2>
 <p>With SQL, you can filter columns and rows by using SELECT and WHERE. Let’s look at an example using the Lahman database.So we should first load that database, along iwth the package sqldf.</p>
 <pre class="r"><code>library(Lahman)
 library(sqldf)</code></pre>
@@ -156,8 +156,9 @@ sqldf(query)</code></pre>
 ## 24 thomamy01   1927    NYA  0
 ## 25  weraju01   1927    NYA  1</code></pre>
 </div>
-<div id="all-instances-where-yankees-have-hit-40-hr-or-more" class="section level2">
-<h2>All instances where Yankees have hit 40 HR or more</h2>
+<div id="equal-to-or-more-than" class="section level1">
+<h1>Equal to or more than</h1>
+<p>Suppose I would like to find an equal to or more than in a list. I could ues this example: All instances where Yankees have hit 40 HR or more.</p>
 <pre class="r"><code>Query&lt;-&quot;Select playerID,yearID,teamID,HR FROM Batting
 WHERE teamID='NYA' and HR&gt;=40&quot;
 sqldf(Query)</code></pre>
@@ -193,8 +194,9 @@ sqldf(Query)</code></pre>
 ## 29 grandcu01   2011    NYA 41
 ## 30 grandcu01   2012    NYA 43</code></pre>
 </div>
-<div id="all-instances-where-a-player-had-more-than-40-hr-but-less-than-60-so" class="section level2">
-<h2>All instances where a player had more than 40 HR but less than 60 SO</h2>
+<div id="more-than-and-less-than-example" class="section level1">
+<h1>More than and Less than example</h1>
+<p>If you would like to look at an example with more than’s and less than’s I could use this example: All instances where a player had more than 40 HR but less than 60 SO.</p>
 <pre class="r"><code>Query&lt;-&quot;Select playerID,yearID,teamID,HR,SO FROM Batting
 WHERE HR&gt;40 and SO&lt;60&quot;
 sqldf(Query)</code></pre>
@@ -228,8 +230,9 @@ sqldf(Query)</code></pre>
 ## 27 pujolal01   2004    SLN 46 52
 ## 28 pujolal01   2006    SLN 49 50</code></pre>
 </div>
-<div id="all-instances-of-phillies-in-the-1970s-hitting-more-than-30-hr" class="section level2">
-<h2>All instances of Phillies in the 1970’s hitting more than 30 HR</h2>
+<div id="more-than-example" class="section level1">
+<h1>More than example</h1>
+<p>If I want to look at just than more than’s, this is an exmaple: All instances of Phillies in the 1970’s hitting more than 30 HR</p>
 <pre class="r"><code>Query&lt;-&quot;Select playerID, yearID, teamID, HR FROM Batting 
 WHERE teamID='PHI'and yearID&gt;=1970 and yearID&lt;1980 and HR&gt;30&quot;
 sqldf(Query)</code></pre>
@@ -243,7 +246,6 @@ sqldf(Query)</code></pre>
 ## 7 schmimi01   1977    PHI 38
 ## 8 luzingr01   1978    PHI 35
 ## 9 schmimi01   1979    PHI 45</code></pre>
-</div>
 <div id="order-by" class="section level2">
 <h2>ORDER BY</h2>
 <p>With SQL, you can order the rows of your output, For instance, suppose you want to see every instance of a player hitting more than 50 homeruns. But you would like the players with the most homeruns to be at the top. We could do the following:</p>
@@ -288,6 +290,153 @@ sqldf(query)</code></pre>
 ## 34  mayswi01    NY1   1955 51
 ## 35 fieldce01    DET   1990 51
 ## 36 jonesan01    ATL   2005 51</code></pre>
+<p>Here is an example of less than, great than or equal to, and order by alll in one. Example: Find all instances oif a player striking out less than 10 times. Making sure each player has had at least 400 AB’s and ordering by strikeouts.</p>
+<pre class="r"><code>query&lt;-&quot;Select playerID, yearID, teamID, SO, AB FROM Batting
+WHERE SO&lt;10 and AB&gt;=400
+ORDER BY SO&quot;
+sqldf(query)</code></pre>
+<pre><code>##     playerID yearID teamID SO  AB
+## 1  doyleja01   1894    NY1  3 422
+## 2  seweljo01   1932    NYA  3 503
+## 3  seweljo01   1925    CLE  4 608
+## 4  seweljo01   1929    CLE  4 578
+## 5  seweljo01   1933    NYA  4 524
+## 6   wardjo01   1893    NY1  5 588
+## 7  holloch01   1922    CHN  5 592
+## 8  mcinnst01   1922    CLE  5 537
+## 9  wanerll01   1936    PIT  5 414
+## 10 wrighge01   1875    BS1  6 408
+## 11 broutda01   1889    BSN  6 485
+## 12 keelewi01   1894    BLN  6 590
+## 13  wardjo01   1894    NY1  6 540
+## 14 quinnjo02   1895    SLN  6 543
+## 15 mcinnst01   1924    BSN  6 581
+## 16 seweljo01   1926    CLE  6 578
+## 17  wardjo01   1889    NY1  7 479
+## 18 crossla01   1893    PHI  7 415
+## 19 quinnjo02   1893    SLN  7 547
+## 20 crossla01   1894    PHI  7 529
+## 21 vaughfa01   1896    CIN  7 433
+## 22 cochrmi01   1927    PHA  7 432
+## 23 seweljo01   1927    CLE  7 569
+## 24 traynpi01   1929    PIT  7 540
+## 25 muelldo01   1956    NY1  7 453
+## 26 connoro01   1885    NY1  8 455
+## 27 glassja01   1887    IN3  8 483
+## 28 glassja01   1890    NY1  8 512
+## 29 donovpa01   1893    PIT  8 499
+## 30 dungasa01   1893    CHN  8 465
+## 31 pinknge01   1893    LS3  8 446
+## 32 brodist01   1894    BLN  8 573
+## 33 quinnjo02   1894    SLN  8 405
+## 34 bierblo01   1895    PIT  8 466
+## 35 crossla01   1895    PHI  8 535
+## 36   hoydu01   1895    CIN  8 429
+## 37 roushed01   1921    CIN  8 418
+## 38 collied01   1923    CHA  8 505
+## 39 collied01   1925    CHA  8 425
+## 40 speaktr01   1927    WS1  8 523
+## 41 cochrmi01   1929    PHA  8 514
+## 42 seweljo01   1931    NYA  8 484
+## 43 wanerll01   1933    PIT  8 500
+## 44 verbaem01   1947    PHI  8 540
+## 45 ansonca01   1883    CHN  9 413
+## 46 broutda01   1887    DTN  9 500
+## 47   hoydu01   1893    WAS  9 564
+## 48 bierblo01   1894    PIT  9 525
+## 49 broutda01   1894    BLN  9 525
+## 50 milledo01   1894    SLN  9 481
+## 51 keelewi01   1896    BLN  9 544
+## 52 mckeaed01   1896    CL4  9 571
+## 53 speaktr01   1918    CLE  9 471
+## 54  dealch01   1921    CHN  9 422
+## 55 mcinnst01   1921    BOS  9 584
+## 56 severha01   1921    SLA  9 472
+## 57  highan01   1926    BSN  9 476
+## 58 summaho01   1926    CLE  9 581
+## 59 seweljo01   1928    CLE  9 588
+## 60  ricesa01   1929    WS1  9 616
+## 61 leachfr01   1931    NY1  9 515
+## 62 busched01   1945    PHA  9 416
+## 63 holmeto01   1945    BSN  9 636
+## 64 boudrlo01   1948    CLE  9 560
+## 65 mitchda01   1952    CLE  9 511</code></pre>
+</div>
+<div id="aggregation" class="section level2">
+<h2>AGGREGATION</h2>
+<p>Aggregating on SQL is helpful to look at sum’s or squashing a section together. IF I wanted to look at Ruth’s HR I could look at this example.</p>
+<pre class="r"><code>query&lt;-&quot;Select playerID, HR FROM Batting
+where playerID='ruthba01'&quot;
+sqldf(query)</code></pre>
+<pre><code>##    playerID HR
+## 1  ruthba01  0
+## 2  ruthba01  4
+## 3  ruthba01  3
+## 4  ruthba01  2
+## 5  ruthba01 11
+## 6  ruthba01 29
+## 7  ruthba01 54
+## 8  ruthba01 59
+## 9  ruthba01 35
+## 10 ruthba01 41
+## 11 ruthba01 46
+## 12 ruthba01 25
+## 13 ruthba01 47
+## 14 ruthba01 60
+## 15 ruthba01 54
+## 16 ruthba01 46
+## 17 ruthba01 49
+## 18 ruthba01 46
+## 19 ruthba01 41
+## 20 ruthba01 34
+## 21 ruthba01 22
+## 22 ruthba01  6</code></pre>
+<p>However, IF i wanted to aggregate the HR I could use this.</p>
+<pre class="r"><code>query&lt;-&quot;Select playerID,sum(HR) FROM Batting
+where playerID='ruthba01'
+GROUP BY playerID&quot;
+sqldf(query)</code></pre>
+<pre><code>##   playerID sum(HR)
+## 1 ruthba01     714</code></pre>
+</div>
+</div>
+<div id="sum-example" class="section level1">
+<h1>SUM example</h1>
+<p>To find the career HR toals for all players, but limit the output totals to 600 or more and order it by career total, I could use this</p>
+<pre class="r"><code>query&lt;-&quot;SELECT playerID,sum(HR) FROM Batting
+GROUP BY playerID
+HAVING sum(HR)&gt;=600
+ORDER BY sum(HR)&quot;
+sqldf(query)</code></pre>
+<pre><code>##    playerID sum(HR)
+## 1  sosasa01     609
+## 2 thomeji01     612
+## 3 griffke02     630
+## 4  mayswi01     660
+## 5 rodrial01     696
+## 6  ruthba01     714
+## 7 aaronha01     755
+## 8 bondsba01     762</code></pre>
+<p>When using aggregations you can do more than just the sum. You can search for the average, max, or minimum, basically to squash the numbers down. Here is an example of averaging and also ordering is by the highest to lowest.</p>
+<pre class="r"><code>query&lt;-&quot;SELECT playerID,avg(HR) FROM Batting
+GROUP BY playerID
+HAVING avg(HR)&gt;30
+ORDER BY sum(HR) DESC&quot;
+sqldf(query)</code></pre>
+<pre><code>##     playerID  avg(HR)
+## 1  bondsba01 34.63636
+## 2  aaronha01 32.82609
+## 3   ruthba01 32.45455
+## 4  rodrial01 31.63636
+## 5   sosasa01 32.05263
+## 6  pujolal01 36.93750
+## 7  mcgwima01 34.29412
+## 8  schmimi01 30.44444
+## 9  cabremi01 31.85714
+## 10 belleal01 31.75000
+## 11 kinerra01 33.54545
+## 12 abreujo02 30.33333
+## 13 bryankr01 32.50000</code></pre>
 </div>
 
 

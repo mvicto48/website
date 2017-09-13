@@ -106,3 +106,37 @@ ORDER BY sum(HR) DESC"
 sqldf(query)
 ```
 
+##INNER JOIN
+Suppose I wanted to look at data from the Batting table, but also the Master table. You can use the term "INNER JOIN" to search both tables. Here is an example.(Side note: remember to always avoid ambiguity, with specifics in each table)
+```{r}
+query<-"SELECT nameFirst, nameLast,teamID,yearID,HR 
+FROM Batting INNER JOIN Master
+ON Batting.playerID=Master.playerID
+WHERE Batting.playerID='ruthba01'"
+
+sqldf(query)
+```
+
+Another example of joining two tables would be: "Find all instances of players hitting more than 50 HR including their First Name, Last Name, team, year, and HR"
+```{r}
+query<-"SELECT nameFirst, nameLast,teamID,yearID,HR 
+FROM Batting INNER JOIN Master
+ON Batting.playerID=Master.playerID
+WHERE HR>50
+ORDER BY HR DESC"
+
+sqldf(query)
+
+```
+
+
+Suppose you want to join two tables and join more than one specific such as teamID and yearID. You could look for B.Ruths playerID, team name, yearID, HR
+```{r}
+query<-"SELECT playerID, name,Batting.yearID,Batting.HR
+FROM Batting INNER JOIN Teams
+ON Batting.teamID=Teams.teamID and Batting.yearID=Teams.yearID
+WHERE playerID='ruthba01'"
+
+sqldf(query)
+```
+

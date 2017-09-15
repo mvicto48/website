@@ -140,3 +140,46 @@ WHERE playerID='ruthba01'"
 sqldf(query)
 ```
 
+
+#More Join's examples
+If you were looking for Babe Ruths first and last name playerID, teamname, yearID, HR,  you could use this code
+```{r}
+query<-"SELECT nameFirst,nameLast,name,Batting.yearID,Batting.HR
+FROM (Batting INNER JOIN Master
+ON Batting.playerID=Master.playerID) INNER JOIN Teams
+ON Batting.teamID=Teams.teamID AND Batting.yearID=Teams.yearID
+WHERE Batting.playerID='ruthba01'"
+
+sqldf(query)
+```
+
+
+A "join" example and using sum'syou could look at career homerun totals for players while limiting the display to just those that hit at least 600 HR's; Having HR totals at the top, first and last names, and HR totals.
+```{r}
+query<-"SELECT nameFirst,nameLast, sum(HR)
+FROM Batting INNER JOIN Master
+ON Batting.playerID=Master.playerID
+GROUP BY Batting.playerID
+HAVING sum(HR)>=600
+ORDER BY sum(HR) DESC"
+
+sqldf(query)
+```
+
+#Salaries joined 
+
+Example where the first name of player is Bob who all averaged making over $1,000,000 in their career, distinguishing them by their last names and in descending order
+```{r}
+query<-"SELECT nameFirst,nameLast,avg(salary)
+FROM Salaries INNER JOIN Master
+ON Salaries.playerID=Master.playerID
+WHERE nameFirst='Bob'
+GROUP by Salaries.playerID
+HAVING avg(salary)>1000000
+ORDER BY avg(salary) DESC"
+
+sqldf(query)
+```
+
+
+
